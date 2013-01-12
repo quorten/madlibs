@@ -1,0 +1,51 @@
+2013-01-12  Andrew Makousky  <Andrew@HOME-DELL-2300>
+
+	* classic.mlb, extended.mlb: Converted Windows newlines to Unix
+	newlines.
+
+	* Makefile: New file.
+
+	* madlibs.c: Finished converting Mad Libs from C++ to C.
+
+2009-12-04  Andrew Makousky  <Andrew@HOME-DELL-2300>
+
+	* MadLibs.cpp: Added story picking by a command-line argument.  However,
+	this feature should not normally be used and instead, the menu based
+	story picking should replace this.
+
+	* extended.mlb: Added story based off of the nightly torturing of
+	Packer Bear in Quacky's World.
+
+	* classic.mlb: Corrected a custom verb cojugation error in "The Flying
+	Bummy."
+
+2009-11-21  Andrew Makousky  <Andrew@HOME-DELL-2300>
+
+	* extended.mlb: Added "END STORY" tag to the end of the one and only
+	story.
+
+2009-10-25  Andrew Makousky  <Andrew@HOME-DELL-2300>
+
+	* ChangeLog: Added change log.
+
+2009-10-24  Andrew Makousky  <Andrew@HOME-DELL-2300>
+
+	* strche.dat: Added story cache file.
+
+	* MadLibs.cpp: Added preliminary story cache support.
+
+2009-10-23  Andrew Makousky  <Andrew@HOME-DELL-2300>
+
+	* attributes.txt: Put "combinatorial feature specification" into action
+	with this project.  This was derived from the old failed project "The
+	Ultimate Mad Libs."  Also, other past technologies from that failed
+	project are planned to be applied throughout the AI project such as a
+	centralized variable configuration system.
+
+2009-10-22  Andrew Makousky  <Andrew@HOME-DELL-2300>
+
+	* MadLibs.cpp: Finished core functionality.
+
+	* classic.mlb: Revised my stories of this library.
+
+	* extended.mlb: Added story derived from "Dootababy Crazy."

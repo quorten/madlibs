@@ -1,0 +1,91 @@
+Format of Mad Libs Story Libraries
+**********************************
+
+A Mad Libs story library is a file that stores a collection of Mad
+Libs stories.  Each Mad Libs story may contain custom word
+definitions.  The format of custom words will be discussed first, and
+the overall story library format will be discussed last.
+
+Custom Words
+************
+
+To specify a custom word, follow this format:
+
+	(word#)
+
+* word: the part of speech or other name to be displayed to the user
+	when prompted.  It is acceptable to use spaces in the
+	description.
+
+* #: A number that uniquely identifies which custom word this is.  The
+     reason why you need to specify this is so that you may reuse
+     words that have been already asked.
+
+* Examples:
+	(adjective23)
+	(present tense singular action verb5)
+	(name1)
+
+To specify a normal parenthesis elsewhere in the story, type the left
+parenthesis twice in a row and the right parenthesis once.  To specify
+a whole bunch of the same parenthesis in a row, type the left
+parentheses one more than as many times as you want it to appear and
+the right parentheses as many times as you want them to appear.
+
+For example, if you type this in your story:
+
+	(name3) took the (noun8) and placed it in the (noun9) ((since
+	there was no (adjective10) outlets around).  Soon there was a
+	huge (noun ending in -ion formed from a verb11) and ))))...
+
+And the following is used for your input:
+
+	Type a name: Fitzgerald
+	...
+	Type a noun: pyramid
+	Type another noun: quarry
+	Type an adjective: rubber
+	Type a noun ending in -ion formed from a verb: citation
+
+Then you will get the following as your output:
+
+	Fitzgerald took the pyramid and placed it in the quarry (since
+	there was no rubber outlets around).  Soon there was a huge
+	citation and ))))...
+
+Story Format
+************
+
+Now time to discuss the story format.  The reason why the custom word
+specification had to be discussed first is because you are allowed to
+use custom words even in the title of your story.  The general story
+format is defined as follows:
+
+	Title
+
+	Story body
+
+	END STORY
+
+	Title of next story
+
+	Story body
+
+	END STORY
+
+There must be proper empty lines between the sections as illustrated.
+"END STORY" is a literal tag which must appear in capitals, at the
+beginning of its line, have empty lines above and below, and no spaces
+or other text afterward on the same line.  If for some reason you want
+to use such in your story, simply violate one of the mentioned rules.
+
+The reason why "END STORY" was picked rather than "THE END" is because
+you might want to use or not use "THE END" in your story depending on
+the type.  You would rarely, if ever, need to type "END STORY" in your
+story.
+
+When the story is displayed, lines will be word wrapped automatically,
+so please don't do word wrapping yourself.
+
+For an example of the story format altogether, see the file
+"classic.mlb" found in the same directory as the program.
