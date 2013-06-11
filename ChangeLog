@@ -1,3 +1,7 @@
+2013-06-10  Andrew Makousky  <Andrew@HOME-DELL-2300>
+
+	* COPYING, bool.h, madlibs.c: Added formal copyright notices.
+
 2013-01-12  Andrew Makousky  <Andrew@HOME-DELL-2300>
 
 	* classic.mlb, extended.mlb: Converted Windows newlines to Unix

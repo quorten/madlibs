@@ -1,5 +1,27 @@
 /* A simple Mad Libs game which loads a random story from a file. */
 /* Later a configuration pannel may be added. */
+/*
+Copyright (C) 2013 Andrew Makousky
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 
 #define _WINDOWS
 #ifdef _WINDOWS
@@ -142,13 +164,13 @@ void ParseStoryLibrary(char* buffer, unsigned fileSize,
 	   character).  */
 
 	/* Allocate memory for the first story.  */
-	EA_SET_SIZE(MadLibsStory, *stories, stories->len + 1);
+	EA_SET_SIZE(*stories, stories->len + 1);
 	EA_INIT(char, EA_BACK(*stories).titleForPrev, 16);
-	EA_APPEND(char, EA_BACK(*stories).titleForPrev, '\0');
+	EA_APPEND(EA_BACK(*stories).titleForPrev, '\0');
 	EA_INIT(char_ptr, EA_BACK(*stories).storyFragments, 16);
 	EA_INIT(char_ptr, EA_BACK(*stories).customWords, 16);
 	EA_INIT(unsigned, EA_BACK(*stories).wordRefs, 16);
-	EA_APPEND(char_ptr, EA_BACK(*stories).storyFragments, &buffer[0]);
+	EA_APPEND(EA_BACK(*stories).storyFragments, &buffer[0]);
 	for (i = 0; i < fileSize; i++)
 	{
 		if (buffer[i] != '(')
@@ -175,13 +197,13 @@ void ParseStoryLibrary(char* buffer, unsigned fileSize,
 					/* if (buffer[i] != '\n') */
 					i++; /* Skip double newline.  */
 					/* Allocate memory for the next story.  */
-					EA_SET_SIZE(MadLibsStory, *stories, stories->len + 1);
+					EA_SET_SIZE(*stories, stories->len + 1);
 					EA_INIT(char, EA_BACK(*stories).titleForPrev, 16);
-					EA_APPEND(char, EA_BACK(*stories).titleForPrev, '\0');
+					EA_APPEND(EA_BACK(*stories).titleForPrev, '\0');
 					EA_INIT(char_ptr, EA_BACK(*stories).storyFragments, 16);
 					EA_INIT(char_ptr, EA_BACK(*stories).customWords, 16);
 					EA_INIT(unsigned, EA_BACK(*stories).wordRefs, 16);
-					EA_APPEND(char_ptr, EA_BACK(*stories).storyFragments,
+					EA_APPEND(EA_BACK(*stories).storyFragments,
 							  &buffer[i+1]);
 					/* Reset proper variables.  */
 					curWordRef = 0;
@@ -193,7 +215,7 @@ void ParseStoryLibrary(char* buffer, unsigned fileSize,
 				{
 					if (buffer[i] != '\n')
 					{
-						EA_INSERT(char, EA_BACK(*stories).titleForPrev,
+						EA_INSERT(EA_BACK(*stories).titleForPrev,
 						  EA_BACK(*stories).titleForPrev.len - 1, buffer[i]);
 					}
 					else
@@ -243,7 +265,7 @@ void ParseStoryLibrary(char* buffer, unsigned fileSize,
 					{
 						/* We have a match.  Fill in the proper word
 						   reference.  */
-						EA_APPEND(unsigned, EA_BACK(*stories).wordRefs, j);
+						EA_APPEND(EA_BACK(*stories).wordRefs, j);
 						foundReuse = true;
 						break;
 					}
@@ -252,18 +274,18 @@ void ParseStoryLibrary(char* buffer, unsigned fileSize,
 				{
 					/* No match found.  Store the new custom word.  */
 					buffer[i] = '\0';
-					EA_APPEND(char_ptr, EA_BACK(*stories).customWords,
+					EA_APPEND(EA_BACK(*stories).customWords,
 							  customWord);
-					EA_APPEND(unsigned, EA_BACK(*stories).wordRefs,
+					EA_APPEND(EA_BACK(*stories).wordRefs,
 							  curWordRef);
 					curWordRef++;
 				}
-				EA_APPEND(char_ptr, EA_BACK(*stories).storyFragments,
+				EA_APPEND(EA_BACK(*stories).storyFragments,
 						  &buffer[i+1]);
 			}
 			if (inTitle == true)
 			{
-				EA_INSERT(char, EA_BACK(*stories).titleForPrev,
+				EA_INSERT(EA_BACK(*stories).titleForPrev,
 						  EA_BACK(*stories).titleForPrev.len - 1, '?');
 			}
 		}
@@ -272,7 +294,7 @@ void ParseStoryLibrary(char* buffer, unsigned fileSize,
 	{
 		/* We have a newline at the end of the file, but of course no
 		   story.  */
-		EA_POP_BACK(MadLibsStory, *stories);
+		EA_POP_BACK(*stories);
 	}
 }
 
@@ -340,7 +362,7 @@ int main(int argc, char* argv[])
 	CacheInfo* cacheInfo = NULL;
 	unsigned fileID; /* Which story file?  */
 
-	char* buffer;
+	char* buffer = NULL;
 	unsigned fileSize;
 	MadLibsStory_array stories;
 	unsigned story;
@@ -429,21 +451,21 @@ cache file.\n", stderr);
 cleanup:
 	for (i = 0; i < files.len; i++)
 		xfree(files.d[i]);
-	EA_DESTROY(char_ptr, files);
+	EA_DESTROY(files);
 	for (i = 0; i < stories.len; i++)
 	{
 		unsigned j;
-		EA_DESTROY(char, stories.d[i].titleForPrev);
-		EA_DESTROY(char_ptr, stories.d[i].storyFragments);
+		EA_DESTROY(stories.d[i].titleForPrev);
+		EA_DESTROY(stories.d[i].storyFragments);
 		if (i == story)
 		{
 			for (j = 0; j < stories.d[i].customWords.len; j++)
 				xfree(stories.d[i].customWords.d[j]);
 		}
-		EA_DESTROY(char_ptr, stories.d[i].customWords);
-		EA_DESTROY(unsigned, stories.d[i].wordRefs);
+		EA_DESTROY(stories.d[i].customWords);
+		EA_DESTROY(stories.d[i].wordRefs);
 	}
-	EA_DESTROY(MadLibsStory, stories);
+	EA_DESTROY(stories);
 	xfree(buffer);
 	return retval;
 }
@@ -466,12 +488,12 @@ bool FindFiles(char_ptr_array* files)
 
 	files->d[files->len] = (char_ptr)xmalloc(strlen(findData.name) + 1);
 	strcpy(files->d[files->len], findData.name);
-	EA_ADD(char_ptr, *files);
+	EA_ADD(*files);
 	while (_findnext(findHandle, &findData) == 0)
 	{
 		files->d[files->len] = (char_ptr)xmalloc(strlen(findData.name) + 1);
 		strcpy(files->d[files->len], findData.name);
-		EA_ADD(char_ptr, *files);
+		EA_ADD(*files);
 	}
 	_findclose(findHandle);
 	qsort(files->d, files->len, sizeof(char*), qsort_stringlist);
@@ -488,7 +510,7 @@ bool FindFiles(char_ptr_array* files)
 	{
 		files->d[files->len] = (char_ptr)xmalloc(strlen(de->d_name) + 1);
 		strcpy(files->d[files->len], de->d_name);
-		EA_ADD(char_ptr, *files);
+		EA_ADD(*files);
 		if (strstr(files->d[files->len-1], ".mlb") !=
 			files->d[files->len-1] + strlen(files->d[files->len-1]) - 4)
 			files->len--;

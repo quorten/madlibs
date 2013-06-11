@@ -4,14 +4,14 @@ exec_prefix = ${prefix}
 bindir = ${exec_prefix}/bin
 datadir = $(prefix)/share
 
-VERSION = 0.1
+VERSION = 0.1.1
 
 madlibs_SOURCES = \
 	madlibs.c \
 	bool.h exparray.h xmalloc.c xmalloc.h
 
 DISTFILES = $(madlibs_SOURCES) \
-	README ChangeLog Libraries.txt Makefile exparray.gdb \
+	README COPYING ChangeLog Libraries.txt Makefile exparray.gdb \
 	classic.mlb extended.mlb
 
 all: madlibs$(X)
