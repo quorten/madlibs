@@ -30,6 +30,6 @@ uninstall:
 
 dist:
 	mkdir madlibs-$(VERSION)
-	cp $(DISTFILES) madlibs-$(VERSION)
+	cp -p $(DISTFILES) madlibs-$(VERSION)
 	zip -9rq madlibs-$(VERSION).zip madlibs-$(VERSION)
 	rm -rf madlibs-$(VERSION)
