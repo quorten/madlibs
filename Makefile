@@ -11,7 +11,7 @@ madlibs_SOURCES = \
 	bool.h exparray.h xmalloc.c xmalloc.h
 
 DISTFILES = $(madlibs_SOURCES) \
-	README COPYING ChangeLog Libraries.txt Makefile exparray.gdb \
+	README.md UNLICENSE ChangeLog Libraries.txt Makefile exparray.gdb \
 	classic.mlb extended.mlb
 
 all: madlibs$(X)
