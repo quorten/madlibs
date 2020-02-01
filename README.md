@@ -1,5 +1,5 @@
 Mad Libs README
-***************
+===============
 
 Mad Libs is a simple command-line Mad Libs game that reads its stories
 from story libraries and selects a random story for the user.  With a
